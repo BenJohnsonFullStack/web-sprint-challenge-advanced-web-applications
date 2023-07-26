@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import PT from "prop-types";
 
 const rotation = keyframes`
   from { transform: rotate(0deg); }
@@ -30,7 +29,3 @@ export default function Spinner(props) {
     </StyledSpinner>
   );
 }
-
-Spinner.propTypes = {
-  on: PT.bool.isRequired,
-};

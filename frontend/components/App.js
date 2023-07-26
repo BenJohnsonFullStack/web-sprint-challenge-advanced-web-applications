@@ -74,9 +74,13 @@ export default function App() {
         setSpinnerOn(false);
       })
       .catch((err) => {
-        err.response.status === 401
-          ? redirectToLogin()
-          : setMessage(err.message);
+        if (err.response.status === 401) {
+          redirectToLogin();
+          setSpinnerOn(false);
+          setMessage(err.message);
+        } else {
+          setMessage(err.message);
+        }
       });
     // We should flush the message state, turn on the spinner
     // and launch an authenticated request to the proper endpoint.

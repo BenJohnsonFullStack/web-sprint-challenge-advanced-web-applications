@@ -11,7 +11,7 @@ export default function ArticleForm(props) {
 
   useEffect(() => {
     // ✨ implement
-    currentArticle === true
+    currentArticle
       ? setValues({
           ...values,
           title: currentArticle.title,
@@ -32,7 +32,7 @@ export default function ArticleForm(props) {
   const onSubmit = (evt) => {
     evt.preventDefault();
     // ✨ implement
-    currentArticle === true ? updateArticle() : postArticle();
+    currentArticle ? updateArticle() : postArticle();
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
   };
@@ -51,7 +51,7 @@ export default function ArticleForm(props) {
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
     // and replace Function.prototype with the correct function
     <form id="form" onSubmit={onSubmit}>
-      <h2>Create Article</h2>
+      <h2>{currentArticle ? "Edit Article" : "Create Article"}</h2>
       <input
         maxLength={50}
         onChange={onChange}

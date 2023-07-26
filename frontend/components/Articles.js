@@ -14,7 +14,7 @@ export default function Articles(props) {
 
   const token = localStorage.getItem("token");
   if (token === null) {
-    <Navigate to="/" />;
+    <Navigate to="/" replace />;
   }
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
