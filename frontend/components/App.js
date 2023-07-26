@@ -110,17 +110,47 @@ export default function App() {
 
   const updateArticle = ({ article_id, article }) => {
     // ✨ implement
+    setMessage("");
+    setSpinnerOn(true);
+    setCurrentArticleId(article_id);
+    axiosWithAuth()
+      .put(`${articlesUrl}/:${article_id}`, article)
+      .then((res) => {
+        setArticles(res.data.articles);
+        setMessage(res.data.message);
+        setSpinnerOn(false);
+      })
+      .catch((err) => {
+        err.response.status === 401
+          ? redirectToLogin()
+          : setMessage(err.message);
+      });
     // You got this!
   };
 
   const deleteArticle = (article_id) => {
     // ✨ implement
+    setMessage("");
+    setSpinnerOn(true);
+    setCurrentArticleId(article_id);
+    axiosWithAuth()
+      .delete(`${articlesUrl}/:${article_id}`)
+      .then((res) => {
+        setArticles(res.data.articles);
+        setMessage(res.data.message);
+        setSpinnerOn(false);
+      })
+      .catch((err) => {
+        err.response.status === 401
+          ? redirectToLogin()
+          : setMessage(err.message);
+      });
   };
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>
-      <Spinner />
+      <Spinner spinnerOn={spinnerOn} />
       <Message message={message} />
       <button id="logout" onClick={logout}>
         Logout from app
@@ -143,8 +173,13 @@ export default function App() {
             path="articles"
             element={
               <>
-                <ArticleForm postArticle={postArticle} />
-                <Articles getArticles={getArticles} />
+                <ArticleForm
+                  postArticle={postArticle}
+                  updateArticle={updateArticle}
+                  deleteArticle={deleteArticle}
+                  currentArticleId={currentArticleId}
+                />
+                <Articles getArticles={getArticles} articles={articles} />
               </>
             }
           />
