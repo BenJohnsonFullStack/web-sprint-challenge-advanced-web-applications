@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import Message from "./Message";
 import ArticleForm from "./ArticleForm";
 import Spinner from "./Spinner";
+import axios from "axios";
 
 const articlesUrl = "http://localhost:9000/api/articles";
 const loginUrl = "http://localhost:9000/api/login";
@@ -22,7 +23,7 @@ export default function App() {
     navigate("/");
   };
   const redirectToArticles = () => {
-    /* ✨ implement */
+    navigate("/articles");
   };
 
   const logout = () => {
@@ -37,8 +38,20 @@ export default function App() {
     // using the helper above.
   };
 
-  const login = ({ username, password }) => {
+  const login = (username, password) => {
     // ✨ implement
+    setMessage("");
+    setSpinnerOn(true);
+    axios
+      .post(loginUrl, { username: username, password: password })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        setMessage(`Here are your articles, ${username}!`);
+        setSpinnerOn(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // We should flush the message state, turn on the spinner
     // and launch a request to the proper endpoint.
     // On success, we should set the token to local storage in a 'token' key,
@@ -94,7 +107,7 @@ export default function App() {
           </NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm login={login} />} />
           <Route
             path="articles"
             element={
