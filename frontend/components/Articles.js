@@ -13,9 +13,8 @@ export default function Articles(props) {
   // ✨ where are my props? Destructure them here
 
   const token = localStorage.getItem("token");
-  console.log(token);
   if (!token) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to="/" />;
   }
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
