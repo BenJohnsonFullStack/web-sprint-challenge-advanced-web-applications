@@ -99,6 +99,8 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then((res) => {
+        console.log(res);
+        setArticles([...articles, res.data.article]);
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
@@ -121,7 +123,7 @@ export default function App() {
     setMessage("");
     setSpinnerOn(true);
     axiosWithAuth()
-      .put(`${articlesUrl}/:${article_id}`, article)
+      .put(`${articlesUrl}/${article_id}`, article)
       .then((res) => {
         setMessage(res.data.message);
         setSpinnerOn(false);
@@ -145,6 +147,7 @@ export default function App() {
     axiosWithAuth()
       .delete(`${articlesUrl}/${article_id}`)
       .then((res) => {
+        console.log(res);
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
@@ -157,6 +160,13 @@ export default function App() {
           setMessage(err.response.data.message);
         }
       });
+  };
+
+  const setCurrentArticle = () => {
+    const currentArticle = articles.filter((article) => {
+      return article.article_id === currentArticleId ? article : null;
+    });
+    return currentArticle;
   };
 
   return (
@@ -190,6 +200,7 @@ export default function App() {
                   updateArticle={updateArticle}
                   setCurrentArticleId={setCurrentArticleId}
                   currentArticleId={currentArticleId}
+                  currentArticle={setCurrentArticle()}
                 />
                 <Articles
                   getArticles={getArticles}

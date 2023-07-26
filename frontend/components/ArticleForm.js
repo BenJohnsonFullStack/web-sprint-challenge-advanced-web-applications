@@ -7,17 +7,20 @@ export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues);
   const { postArticle, updateArticle, setCurrentArticleId, currentArticle } =
     props;
+
+  console.log(currentArticle);
   // ✨ where are my props? Destructure them here
 
   useEffect(() => {
     // ✨ implement
     currentArticle
-      ? setValues({
-          ...values,
-          title: currentArticle.title,
-          text: currentArticle.text,
-          topic: currentArticle.topic,
-        })
+      ? currentArticle.forEach((art) =>
+          setValues({
+            title: art.title,
+            text: art.text,
+            topic: art.topic,
+          })
+        )
       : setValues(initialFormValues);
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     // if it's truthy, we should set its title, text and topic into the corresponding
