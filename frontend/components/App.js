@@ -94,14 +94,17 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then((res) => {
-        setArticles(res.data.articles);
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
-        err.response.status === 401
-          ? redirectToLogin()
-          : setMessage(err.message);
+        if (err.response.status === 401) {
+          redirectToLogin();
+          setSpinnerOn(false);
+          setMessage(err.message);
+        } else {
+          setMessage(err.message);
+        }
       });
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
@@ -115,14 +118,17 @@ export default function App() {
     axiosWithAuth()
       .put(`${articlesUrl}/:${article_id}`, article)
       .then((res) => {
-        setArticles(res.data.articles);
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
-        err.response.status === 401
-          ? redirectToLogin()
-          : setMessage(err.message);
+        if (err.response.status === 401) {
+          redirectToLogin();
+          setSpinnerOn(false);
+          setMessage(err.message);
+        } else {
+          setMessage(err.message);
+        }
       });
     // You got this!
   };
@@ -132,16 +138,19 @@ export default function App() {
     setMessage("");
     setSpinnerOn(true);
     axiosWithAuth()
-      .delete(`${articlesUrl}/:${article_id}`)
+      .delete(`${articlesUrl}/${article_id}`)
       .then((res) => {
-        setArticles(res.data.articles);
         setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
-        err.response.status === 401
-          ? redirectToLogin()
-          : setMessage(err.message);
+        if (err.response.status === 401) {
+          redirectToLogin();
+          setSpinnerOn(false);
+          setMessage(err.message);
+        } else {
+          setMessage(err.message);
+        }
       });
   };
 
