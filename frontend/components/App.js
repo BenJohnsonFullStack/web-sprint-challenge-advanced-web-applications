@@ -48,6 +48,7 @@ export default function App() {
         localStorage.setItem("token", res.data.token);
         setMessage(`Here are your articles, ${username}!`);
         setSpinnerOn(false);
+        redirectToArticles();
       })
       .catch((err) => {
         console.log(err);
