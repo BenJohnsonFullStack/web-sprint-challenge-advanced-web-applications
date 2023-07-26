@@ -75,11 +75,12 @@ export default function App() {
       })
       .catch((err) => {
         if (err.response.status === 401) {
+          console.log(err);
           redirectToLogin();
           setSpinnerOn(false);
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         } else {
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         }
       });
     // We should flush the message state, turn on the spinner
@@ -105,9 +106,9 @@ export default function App() {
         if (err.response.status === 401) {
           redirectToLogin();
           setSpinnerOn(false);
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         } else {
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         }
       });
     // The flow is very similar to the `getArticles` function.
@@ -129,9 +130,9 @@ export default function App() {
         if (err.response.status === 401) {
           redirectToLogin();
           setSpinnerOn(false);
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         } else {
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         }
       });
     // You got this!
@@ -151,9 +152,9 @@ export default function App() {
         if (err.response.status === 401) {
           redirectToLogin();
           setSpinnerOn(false);
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         } else {
-          setMessage(err.message);
+          setMessage(err.response.data.message);
         }
       });
   };
