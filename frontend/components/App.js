@@ -47,13 +47,12 @@ export default function App() {
       .post(loginUrl, { username: username, password: password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("username", username);
         setMessage(res.data.message);
         setSpinnerOn(false);
         redirectToArticles();
       })
       .catch((err) => {
-        console.log(err);
+        setMessage(err.message);
       });
     // We should flush the message state, turn on the spinner
     // and launch a request to the proper endpoint.
@@ -69,9 +68,8 @@ export default function App() {
     axiosWithAuth()
       .get(articlesUrl)
       .then((res) => {
-        const username = localStorage.getItem("username");
         setArticles(res.data.articles);
-        setMessage(`Here are your articles, ${username}!`);
+        setMessage(res.data.message);
         redirectToArticles();
         setSpinnerOn(false);
       })
@@ -91,6 +89,20 @@ export default function App() {
 
   const postArticle = (article) => {
     // ✨ implement
+    setMessage("");
+    setSpinnerOn(true);
+    axiosWithAuth()
+      .post(articlesUrl, article)
+      .then((res) => {
+        setArticles(res.data.articles);
+        setMessage(res.data.message);
+        setSpinnerOn(false);
+      })
+      .catch((err) => {
+        err.response.status === 401
+          ? redirectToLogin()
+          : setMessage(err.message);
+      });
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
     // to inspect the response from the server.
@@ -131,11 +143,8 @@ export default function App() {
             path="articles"
             element={
               <>
-                <ArticleForm />
-                <Articles
-                  getArticles={getArticles}
-                  redirectToLogin={redirectToLogin}
-                />
+                <ArticleForm postArticle={postArticle} />
+                <Articles getArticles={getArticles} />
               </>
             }
           />
