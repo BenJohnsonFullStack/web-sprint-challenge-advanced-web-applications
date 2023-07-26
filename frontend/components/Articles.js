@@ -3,7 +3,13 @@ import { Navigate } from "react-router-dom";
 import PT from "prop-types";
 
 export default function Articles(props) {
-  const { getArticles } = props;
+  const {
+    getArticles,
+    deleteArticle,
+    setCurrentArticleId,
+    currentArticleId,
+    articles,
+  } = props;
   // ✨ where are my props? Destructure them here
 
   const token = localStorage.getItem("token");

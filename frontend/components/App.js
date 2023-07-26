@@ -112,7 +112,6 @@ export default function App() {
     // ✨ implement
     setMessage("");
     setSpinnerOn(true);
-    setCurrentArticleId(article_id);
     axiosWithAuth()
       .put(`${articlesUrl}/:${article_id}`, article)
       .then((res) => {
@@ -132,7 +131,6 @@ export default function App() {
     // ✨ implement
     setMessage("");
     setSpinnerOn(true);
-    setCurrentArticleId(article_id);
     axiosWithAuth()
       .delete(`${articlesUrl}/:${article_id}`)
       .then((res) => {
@@ -176,10 +174,16 @@ export default function App() {
                 <ArticleForm
                   postArticle={postArticle}
                   updateArticle={updateArticle}
-                  deleteArticle={deleteArticle}
+                  setCurrentArticleId={setCurrentArticleId}
                   currentArticleId={currentArticleId}
                 />
-                <Articles getArticles={getArticles} articles={articles} />
+                <Articles
+                  getArticles={getArticles}
+                  articles={articles}
+                  deleteArticle={deleteArticle}
+                  setCurrentArticleId={setCurrentArticleId}
+                  currentArticleId={currentArticleId}
+                />
               </>
             }
           />
