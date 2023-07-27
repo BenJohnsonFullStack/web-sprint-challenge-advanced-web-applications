@@ -9,8 +9,6 @@ export default function ArticleForm(props) {
     props;
   // ✨ where are my props? Destructure them here
 
-  console.log(currentArticle);
-
   useEffect(() => {
     // ✨ implement
     currentArticle.length > 0
@@ -54,9 +52,9 @@ export default function ArticleForm(props) {
 
   const isDisabled = () => {
     // ✨ implement
-    return values.title.trim().length &&
-      values.text.trim().length &&
-      values.topic.trim().length
+    return values.title.trim().length >= 1 &&
+      values.text.trim().length >= 1 &&
+      values.topic.trim().length >= 1
       ? false
       : true;
     // Make sure the inputs have some values

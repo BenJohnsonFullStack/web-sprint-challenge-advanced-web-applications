@@ -81,6 +81,7 @@ export default function App() {
           setMessage(err.response.data.message);
         } else {
           setMessage(err.response.data.message);
+          setSpinnerOn(false);
         }
       });
     // We should flush the message state, turn on the spinner
@@ -111,6 +112,7 @@ export default function App() {
           setMessage(err.response.data.message);
         } else {
           setMessage(err.response.data.message);
+          setSpinnerOn(false);
         }
       });
     // The flow is very similar to the `getArticles` function.
@@ -118,8 +120,9 @@ export default function App() {
     // to inspect the response from the server.
   };
 
-  const updateArticle = ({ article_id, article }) => {
+  const updateArticle = (article_id, article) => {
     // ✨ implement
+    console.log(article_id, article);
     setMessage("");
     setSpinnerOn(true);
     axiosWithAuth()
@@ -135,6 +138,7 @@ export default function App() {
           setMessage(err.response.data.message);
         } else {
           setMessage(err.response.data.message);
+          setSpinnerOn(false);
         }
       });
     // You got this!
@@ -158,6 +162,7 @@ export default function App() {
           setMessage(err.response.data.message);
         } else {
           setMessage(err.response.data.message);
+          setSpinnerOn(false);
         }
       });
   };
