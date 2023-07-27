@@ -30,7 +30,6 @@ export default function App() {
   const logout = () => {
     // ✨ implement
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
     setMessage("Goodbye!");
     redirectToLogin();
 
@@ -48,7 +47,6 @@ export default function App() {
       .post(loginUrl, { username: username, password: password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("username", username);
         setMessage(res.data.message);
         setSpinnerOn(false);
         redirectToArticles();
@@ -63,7 +61,7 @@ export default function App() {
     // to the Articles screen. Don't forget to turn off the spinner!
   };
 
-  const getArticles = (message) => {
+  const getArticles = () => {
     // ✨ implement
     setMessage("");
     setSpinnerOn(true);
@@ -71,7 +69,7 @@ export default function App() {
       .get(articlesUrl)
       .then((res) => {
         setArticles(res.data.articles);
-        setMessage(message);
+        setMessage(res.data.message);
         redirectToArticles();
         setSpinnerOn(false);
       })
@@ -102,7 +100,8 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then((res) => {
-        getArticles(res.data.message);
+        setArticles([...articles, article]);
+        setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -127,7 +126,14 @@ export default function App() {
     axiosWithAuth()
       .put(`${articlesUrl}/${article_id}`, article)
       .then((res) => {
-        getArticles(res.data.message);
+        setArticles(
+          articles.map((art) => {
+            return art.article_id === res.data.article.article_id
+              ? res.data.article
+              : art;
+          })
+        );
+        setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -150,7 +156,8 @@ export default function App() {
     axiosWithAuth()
       .delete(`${articlesUrl}/${article_id}`)
       .then((res) => {
-        getArticles(res.data.message);
+        setArticles(articles.filter((art) => art.article_id !== article_id));
+        setMessage(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -166,8 +173,8 @@ export default function App() {
   };
 
   const setCurrentArticle = () => {
-    const currentArticle = articles.filter((article) => {
-      return article.article_id === currentArticleId ? article : null;
+    const currentArticle = articles.filter((art) => {
+      return art.article_id === currentArticleId ? art : null;
     });
     return currentArticle;
   };

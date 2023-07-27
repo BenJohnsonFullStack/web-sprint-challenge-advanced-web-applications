@@ -40,8 +40,6 @@ export default function ArticleForm(props) {
             text: values.text,
             topic: values.topic,
           });
-          setCurrentArticleId(null);
-          console.log(values);
         })
       : postArticle({
           title: values.title,

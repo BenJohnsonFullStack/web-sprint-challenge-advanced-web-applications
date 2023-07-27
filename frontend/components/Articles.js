@@ -3,13 +3,7 @@ import { Navigate } from "react-router-dom";
 import PT from "prop-types";
 
 export default function Articles(props) {
-  const {
-    getArticles,
-    deleteArticle,
-    setCurrentArticleId,
-    currentArticleId,
-    articles,
-  } = props;
+  const { getArticles, deleteArticle, setCurrentArticleId, articles } = props;
   // ✨ where are my props? Destructure them here
 
   const token = localStorage.getItem("token");
@@ -20,8 +14,7 @@ export default function Articles(props) {
   // we should render a Navigate to login screen (React Router v.6)
 
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    getArticles(`Here are your articles, ${username}!`);
+    getArticles();
     // ✨ grab the articles here, on first render only
   }, []);
 
