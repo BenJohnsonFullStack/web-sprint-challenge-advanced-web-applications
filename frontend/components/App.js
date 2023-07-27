@@ -17,6 +17,7 @@ export default function App() {
   const [articles, setArticles] = useState([]);
   const [currentArticleId, setCurrentArticleId] = useState();
   const [spinnerOn, setSpinnerOn] = useState(false);
+  const [username, setUsername] = useState("");
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export default function App() {
       .post(loginUrl, { username: username, password: password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
+        setUsername(username);
         setMessage(res.data.message);
         setSpinnerOn(false);
         redirectToArticles();
@@ -61,7 +63,7 @@ export default function App() {
     // to the Articles screen. Don't forget to turn off the spinner!
   };
 
-  const getArticles = () => {
+  const getArticles = (message) => {
     // ✨ implement
     setMessage("");
     setSpinnerOn(true);
@@ -69,7 +71,7 @@ export default function App() {
       .get(articlesUrl)
       .then((res) => {
         setArticles(res.data.articles);
-        setMessage(res.data.message);
+        setMessage(message);
         redirectToArticles();
         setSpinnerOn(false);
       })
@@ -100,7 +102,7 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then((res) => {
-        setMessage(res.data.message);
+        getArticles(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -125,7 +127,7 @@ export default function App() {
     axiosWithAuth()
       .put(`${articlesUrl}/${article_id}`, article)
       .then((res) => {
-        setMessage(res.data.message);
+        getArticles(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -148,7 +150,7 @@ export default function App() {
     axiosWithAuth()
       .delete(`${articlesUrl}/${article_id}`)
       .then((res) => {
-        setMessage(res.data.message);
+        getArticles(res.data.message);
         setSpinnerOn(false);
       })
       .catch((err) => {
@@ -209,6 +211,7 @@ export default function App() {
                   deleteArticle={deleteArticle}
                   setCurrentArticleId={setCurrentArticleId}
                   currentArticleId={currentArticleId}
+                  username={username}
                 />
               </>
             }
