@@ -102,6 +102,7 @@ export default function App() {
       .then((res) => {
         setArticles([...articles, article]);
         setMessage(res.data.message);
+        setCurrentArticleId(null);
         setSpinnerOn(false);
       })
       .catch((err) => {
