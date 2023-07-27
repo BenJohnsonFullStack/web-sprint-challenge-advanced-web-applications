@@ -9,7 +9,6 @@ export default function Articles(props) {
     setCurrentArticleId,
     currentArticleId,
     articles,
-    username,
   } = props;
   // ✨ where are my props? Destructure them here
 
@@ -21,6 +20,7 @@ export default function Articles(props) {
   // we should render a Navigate to login screen (React Router v.6)
 
   useEffect(() => {
+    const username = localStorage.getItem("username");
     getArticles(`Here are your articles, ${username}!`);
     // ✨ grab the articles here, on first render only
   }, []);

@@ -17,7 +17,6 @@ export default function App() {
   const [articles, setArticles] = useState([]);
   const [currentArticleId, setCurrentArticleId] = useState();
   const [spinnerOn, setSpinnerOn] = useState(false);
-  const [username, setUsername] = useState("");
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate();
@@ -31,6 +30,7 @@ export default function App() {
   const logout = () => {
     // ✨ implement
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     setMessage("Goodbye!");
     redirectToLogin();
 
@@ -48,7 +48,7 @@ export default function App() {
       .post(loginUrl, { username: username, password: password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        setUsername(username);
+        localStorage.setItem("username", username);
         setMessage(res.data.message);
         setSpinnerOn(false);
         redirectToArticles();
@@ -211,7 +211,6 @@ export default function App() {
                   deleteArticle={deleteArticle}
                   setCurrentArticleId={setCurrentArticleId}
                   currentArticleId={currentArticleId}
-                  username={username}
                 />
               </>
             }
