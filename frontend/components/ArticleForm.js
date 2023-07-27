@@ -40,13 +40,14 @@ export default function ArticleForm(props) {
             text: values.text,
             topic: values.topic,
           });
+          setCurrentArticleId(null);
         })
       : postArticle({
           title: values.title,
           text: values.text,
           topic: values.topic,
         });
-
+    setCurrentArticleId(null);
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
   };
