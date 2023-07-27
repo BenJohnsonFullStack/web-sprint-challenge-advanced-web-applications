@@ -41,13 +41,13 @@ export default function ArticleForm(props) {
             topic: values.topic,
           });
           setCurrentArticleId(null);
+          console.log(values);
         })
       : postArticle({
           title: values.title,
           text: values.text,
           topic: values.topic,
         });
-    setCurrentArticleId(null);
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
   };
@@ -97,7 +97,9 @@ export default function ArticleForm(props) {
         <button disabled={isDisabled()} id="submitArticle">
           Submit
         </button>
-        <button onClick={onCancel}>Cancel edit</button>
+        {currentArticle.length > 0 ? (
+          <button onClick={onCancel}>Cancel edit</button>
+        ) : null}
       </div>
     </form>
   );
