@@ -7,13 +7,13 @@ export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues);
   const { postArticle, updateArticle, setCurrentArticleId, currentArticle } =
     props;
+  // ✨ where are my props? Destructure them here
 
   console.log(currentArticle);
-  // ✨ where are my props? Destructure them here
 
   useEffect(() => {
     // ✨ implement
-    currentArticle
+    currentArticle.length > 0
       ? currentArticle.forEach((art) =>
           setValues({
             title: art.title,
@@ -35,11 +35,13 @@ export default function ArticleForm(props) {
   const onSubmit = (evt) => {
     evt.preventDefault();
     // ✨ implement
-    currentArticle
-      ? updateArticle({
-          title: values.title,
-          text: values.text,
-          topic: values.topic,
+    currentArticle.length > 0
+      ? currentArticle.forEach((article) => {
+          updateArticle(article.article_id, {
+            title: values.title,
+            text: values.text,
+            topic: values.topic,
+          });
         })
       : postArticle({
           title: values.title,
@@ -60,11 +62,17 @@ export default function ArticleForm(props) {
     // Make sure the inputs have some values
   };
 
+  const onCancel = (e) => {
+    e.preventDefault();
+    setValues(initialFormValues);
+    setCurrentArticleId(null);
+  };
+
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
     // and replace Function.prototype with the correct function
     <form id="form" onSubmit={onSubmit}>
-      <h2>{currentArticle ? "Edit" : "Create"} Article</h2>
+      <h2>{currentArticle.length > 0 ? "Edit" : "Create"} Article</h2>
       <input
         maxLength={50}
         onChange={onChange}
@@ -89,7 +97,7 @@ export default function ArticleForm(props) {
         <button disabled={isDisabled()} id="submitArticle">
           Submit
         </button>
-        <button onClick={updateArticle}>Cancel edit</button>
+        <button onClick={onCancel}>Cancel edit</button>
       </div>
     </form>
   );
