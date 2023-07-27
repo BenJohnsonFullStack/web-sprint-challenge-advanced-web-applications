@@ -100,7 +100,12 @@ export default function App() {
     axiosWithAuth()
       .post(articlesUrl, article)
       .then((res) => {
-        setArticles([...articles, article]);
+        const articleWithId = {
+          ...article,
+          ["article_id"]: res.data.article.article_id,
+        };
+        console.log(articleWithId);
+        setArticles([...articles, articleWithId]);
         setMessage(res.data.message);
         setCurrentArticleId(null);
         setSpinnerOn(false);
